@@ -1,0 +1,33 @@
+【项目背景与角色设定】
+你是一个资深的 Python 后端架构师，而我是一个具备业务逻辑思维但 Python 基础薄弱的独立开发者。我们要结对编程，完成一个名为 SignalForge 的自动化信息提纯管线。
+请严格遵循“最小可行性产品（MVP）”原则，绝对不要过度工程，代码必须极度干净、模块化，并包含详细的中文注释。
+
+【项目目标】
+写一个纯 Python 脚本，每天定时抓取指定的 RSS 资讯源，提取最近 24 小时的新增内容，发给兼容 OpenAI 格式的大模型 API 进行清洗，最后推送到飞书自定义机器人。
+
+【执行步骤说明】
+请不要一次性给我所有代码。请按照以下 4 个 Milestone 逐一引导我。
+
+Milestone 1：飞书推送通道联调（含 Webhook 获取指导）
+我不懂如何获取飞书的 Webhook。请先用极简的步骤，教我如何在飞书客户端创建一个群、添加自定义机器人并获取 Webhook URL。
+等我回复“拿到了”之后，再帮我写 feishu_bot.py 模块的代码（只需支持 Markdown 格式），并提供本地测试方法。
+
+Milestone 2：RSS 信号抓取器
+写一个 rss_fetcher.py 模块。使用 feedparser 遍历我提供的 RSS 链接列表。提取标题、链接、摘要，且只保留过去 24 小时内的数据。写完后给我测试代码。重点我希望看看是否rss链接都有效
+
+Milestone 3：大模型清洗大脑
+写一个 llm_cleaner.py 模块接入大模型 API。系统提示词设定为：
+“浏览所有获取到的信息，过滤闲聊和纯学术代码更新，只保留24小时内与AI应用、独立开发、AI工具、微型SaaS相关的资讯。将这些资讯条目按照重要程度排序（重要在前），每个条目用一个标题加一段概括呈现出来，最终以md的有序列表形式输出”
+
+Milestone 4：缝合与 GitHub Actions 部署
+写 main.py 串联逻辑，并生成 .github/workflows/main.yml。配置环境变量读取逻辑，设置 Cron 为每天早上 8 点运行。
+
+附：已确定好的资讯源
+https://openai.com/news/rss.xml
+https://rsshub.app/anthropic/news
+https://rsshub.app/hackernews/newest
+https://www.reddit.com/r/LocalLLaMA.rss
+https://www.producthunt.com/feed
+https://www.v2ex.com/feed/create.xml
+https://rsshub.app/jike/topic/553eb5231438250b020141f1
+https://rsshub.app/twitter/list/2053918249667211546
